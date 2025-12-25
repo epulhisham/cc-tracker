@@ -1,0 +1,55 @@
+<x-app-layout>
+    <div x-data="{
+        openCreate: {{ $errors->any() ? 'true' : 'false' }},
+        openEdit: false,
+        openDelete: false,
+        mode: null, // 'edit' | 'delete'
+        selectedAccount: null,
+    }" class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <x-toast />
+
+        <div class="flex col justify-end gap-4">
+            <button @click="openCreate = true" class="font-medium text-blue-600 hover:underline">
+                Create
+            </button>
+            @include('account.modals.create-account')
+            <button @click="mode = mode === 'edit' ? null : 'edit'" class="font-medium text-slate-600 hover:underline">
+                Edit
+            </button>
+            @include('account.modals.edit-account')
+            <button @click="mode = mode === 'delete' ? null : 'delete'" class="font-medium text-red-600 hover:underline">
+                Delete
+            </button>
+            @include('account.modals.delete-account')
+        </div>
+        <div class="flex flex-col lg:flex-row gap-6 flex-wrap mt-10">
+            @forelse ($accounts as $acc)
+                @php $t = $acc->themeClasses(); @endphp
+                <div
+                    class="flex flex-row justify-between p-4 sm:p-8 {{ $t['bg'] }} {{ $t['ring'] }} ring-1 sm:rounded-lg min-w-[320px] max-w-[320px]">
+                    <h1 class="font-medium text-lg {{ $t['text'] }}">
+                        {{ $acc->name }}
+                    </h1>
+
+                    <div class="flex flex-row gap-2">
+                        <button x-cloak x-show="mode === 'edit'"
+                            @click="openEdit = true; selectedAccount = @js(['id' => $acc->id, 'name' => $acc->name])"
+                            class="font-medium text-slate-600 hover:underline">
+                            Edit
+                        </button>
+
+                        <button x-cloak x-show="mode === 'delete'"
+                            @click="openDelete = true; selectedAccount = @js(['id' => $acc->id, 'name' => $acc->name])"
+                            class="font-medium text-red-600 hover:underline">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div class="text-slate-600">
+                    No accounts yet. Click <span class="text-blue-600 font-medium">Create</span> to add one.
+                </div>
+            @endforelse
+        </div>
+    </div>
+</x-app-layout>
