@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('accounts', function (Blueprint $table) {
-            $table->string('theme', 30)->default('slate')->after('name');
+            $table->string('primary_color', 7)->default('#FFFFFF');
+            $table->string('secondary_color', 7)->default('#000000');
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('accounts', function (Blueprint $table) {
-            $table->dropColumn('theme');
+            $table->dropColumn(['primary_color', 'secondary_color']);
         });
     }
 };
