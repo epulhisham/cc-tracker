@@ -36,9 +36,7 @@ class AccountController extends Controller
     public function store(StoreAccountRequest $request)
     {
         $data = $request->validated();
-
         $data['user_id'] = $request->user()->id;
-
         Account::create($data);
 
         return redirect()->back()->with('success', 'Account created.');

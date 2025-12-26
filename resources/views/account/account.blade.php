@@ -24,23 +24,30 @@
         </div>
         <div class="flex flex-col lg:flex-row gap-6 flex-wrap mt-10">
             @forelse ($accounts as $acc)
-                @php $t = $acc->themeClasses(); @endphp
-                <div
-                    class="flex flex-row justify-between p-4 sm:p-8 {{ $t['bg'] }} {{ $t['ring'] }} ring-1 sm:rounded-lg min-w-[320px] max-w-[320px]">
-                    <h1 class="font-medium text-lg {{ $t['text'] }}">
+                <div class="flex flex-row justify-between p-4 sm:p-8 border sm:rounded-lg min-w-[320px] max-w-[320px]"
+                    style="
+                    background-color: {{ $acc->primary_color }};
+                    color: {{ $acc->secondary_color }};
+                    border-color: {{ $acc->secondary_color }};
+                    ">
+                    <h1 class="font-medium text-lg">
                         {{ $acc->name }}
                     </h1>
 
                     <div class="flex flex-row gap-2">
                         <button x-cloak x-show="mode === 'edit'"
-                            @click="openEdit = true; selectedAccount = @js(['id' => $acc->id, 'name' => $acc->name])"
-                            class="font-medium text-slate-600 hover:underline">
+                            @click="openEdit = true; selectedAccount = @js(['id' => $acc->id, 'name' => $acc->name, 'primaryColor' => $acc->primary_color, 'secondaryColor' => $acc->secondary_color ])"
+                            class="font-medium hover:underline"
+                            color: {{ $acc->secondary_color }};
+                            >
                             Edit
                         </button>
 
                         <button x-cloak x-show="mode === 'delete'"
                             @click="openDelete = true; selectedAccount = @js(['id' => $acc->id, 'name' => $acc->name])"
-                            class="font-medium text-red-600 hover:underline">
+                            class="font-medium hover:underline"
+                            color: {{ $acc->secondary_color }};
+                            >
                             Delete
                         </button>
                     </div>

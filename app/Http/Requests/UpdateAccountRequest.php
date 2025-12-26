@@ -23,6 +23,8 @@ class UpdateAccountRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:50'],
+            'primary_color' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'secondary_color' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
         ];
     }
 }
